@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="1" failures="0" errors="0" time="1.394">
+    <testsuite name="src/App.test.tsx" timestamp="2024-10-17T13:38:05.644Z" hostname="DESKTOP-MSMMV6A" tests="1" failures="0" errors="0" skipped="0" time="0.048">
+        <testcase classname="src/App.test.tsx" name="App &gt; Renders hello wrold" time="0.047">
+        </testcase>
+    </testsuite>
+</testsuites>
