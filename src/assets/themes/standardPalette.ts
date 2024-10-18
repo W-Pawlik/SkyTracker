@@ -8,16 +8,19 @@ declare module "@mui/material/styles/createPalette" {
     buttonFocusBorder: string;
     turquoise: string;
     backgroundLightBlue: string;
+    lightGrey: string;
+    darkerTurquoise: string;
   }
 }
 
 const standardColors = {
   turquoise: "#00B389",
+  darkerTurquoise: "#038566",
   deepBlue: "#082D64",
   lighterBlue: "#0E3878",
   white: "#fff",
   black: "#000",
-  lightGrey: "#c0cedc",
+  lightGrey: "#D9D9D9",
   lighterGrey: "#e6ebf1",
   ightestGrey: "#f5f7f9",
   backgroundLightBlue: "#475A97",
@@ -70,7 +73,9 @@ export const createStandardPalette = (): GeneralPaletteOptions => {
       linkColor: standardColors.turquoise,
       buttonFocusBorder: standardColors.turquoise,
       turquoise: standardColors.turquoise,
-      backgroundLightBlue: standardColors.backgroundLightBlue
+      backgroundLightBlue: standardColors.backgroundLightBlue,
+      lightGrey: standardColors.lightGrey,
+      darkerTurquoise: standardColors.darkerTurquoise
     }
   };
 };
