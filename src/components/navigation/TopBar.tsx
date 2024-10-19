@@ -9,7 +9,8 @@ const topBarCss = {
   appBar: () =>
     css({
       alignSelf: "center",
-      padding: "0.25rem 3.5rem"
+      padding: "0.25rem 3.5rem",
+      background: "transparent"
     }),
   toolBar: () =>
     css({

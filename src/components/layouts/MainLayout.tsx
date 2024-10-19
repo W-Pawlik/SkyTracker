@@ -9,8 +9,11 @@ import { TopBar } from "../navigation/TopBar";
 const MainLayoutCss = {
   outlet: (theme: Theme) =>
     css({
+      display: "flex",
+      flexDirection: "column",
       flexGrow: "1",
-      color: theme.palette.common.white
+      color: theme.palette.common.white,
+      gap: "11rem"
     })
 };
 

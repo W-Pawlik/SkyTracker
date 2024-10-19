@@ -46,11 +46,11 @@ export const createStandardPalette = (): GeneralPaletteOptions => {
       main: primaryColor
     },
     secondary: {
-      main: standardColors.deepBlue
+      main: standardColors.lightGrey
     },
     background: {
       default: standardColors.backgroundLightBlue,
-      paper: standardColors.white
+      paper: standardColors.deepBlue
     },
     text: {
       primary: standardColors.white
