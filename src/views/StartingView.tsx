@@ -1,16 +1,17 @@
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Img1 from "../assets/images/png/startingViewpngs/planesAroundWorld.png";
 import backgroundVideo from "../assets/images/video/skytrackerBackgroundVideo.mp4";
 import { TitleSubTitleCont } from "../components/containers/TitleSubTitleCont";
 import { AirLanesTicker } from "../components/presentational/AirLanesTicker";
 import { BaseTabs } from "../components/presentational/BaseTabs";
+import { CommonButton } from "../components/presentational/Button";
+import { FAQ } from "../components/presentational/FAQ";
 import { HeroSection } from "../components/presentational/HeroSection";
+import { Newsletter } from "../components/presentational/Newsletter";
 import { StartingViewSection3 } from "../components/presentational/StartingViewSection3";
-
-const tabData = [
-  { tabTitle: "OpenSKy", tabContent: "OpenSKy is smth" },
-  { tabTitle: "FireBase", tabContent: "FireBase is smth" }
-];
+import { FAQData } from "../consts/data/faqData";
+import { tabData } from "../consts/data/tabData";
 
 const StartingView = () => (
   <>
@@ -44,6 +45,43 @@ const StartingView = () => (
     <StartingViewSection3 />
 
     <BaseTabs tabData={tabData} />
+
+    <Box
+      sx={{
+        alignSelf: "center",
+        width: "70%",
+        padding: "2rem",
+        paddingTop: "3rem",
+        height: "35rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "1rem",
+        backgroundColor: "#082D64",
+        borderRadius: "400px"
+      }}
+    >
+      <Typography variant="h1">Frequently Asked Questions</Typography>
+      <FAQ faqData={FAQData} />
+    </Box>
+
+    <Box
+      sx={{
+        display: "flex",
+        alignSelf: "center",
+        gap: "2rem",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      <Typography maxWidth="50%" variant="body1" fontSize="1.9rem">
+        So now you know everytihnk... you know what to do
+      </Typography>
+      <CommonButton text="Try it!" size="large" />
+    </Box>
+
+    <Newsletter />
   </>
 );
 

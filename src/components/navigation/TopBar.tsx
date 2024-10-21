@@ -10,7 +10,8 @@ const topBarCss = {
     css({
       alignSelf: "center",
       padding: "0.25rem 3.5rem",
-      background: "transparent"
+      background: "transparent",
+      position: "static"
     }),
   toolBar: () =>
     css({
