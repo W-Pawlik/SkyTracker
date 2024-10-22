@@ -21,9 +21,9 @@ export const AirLanesTicker = () => {
           src={item.path}
           alt={item.desc}
           key={index}
-          style={{
+          sx={{
             margin: "5px",
-            height: "5rem",
+            height: { xs: "3rem", sm: "3rem", md: "3rem", lg: "4rem", xl: "6.5rem" },
             width: "10rem"
           }}
         />

@@ -6,6 +6,7 @@ import { TitleSubTitleCont } from "../components/containers/TitleSubTitleCont";
 import { AirLanesTicker } from "../components/presentational/AirLanesTicker";
 import { BaseTabs } from "../components/presentational/BaseTabs";
 import { CommonButton } from "../components/presentational/Button";
+import { ContactSection } from "../components/presentational/ContactSection";
 import { FAQ } from "../components/presentational/FAQ";
 import { HeroSection } from "../components/presentational/HeroSection";
 import { Newsletter } from "../components/presentational/Newsletter";
@@ -82,6 +83,8 @@ const StartingView = () => (
     </Box>
 
     <Newsletter />
+
+    <ContactSection />
   </>
 );
 

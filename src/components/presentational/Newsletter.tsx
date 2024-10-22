@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { css } from "@emotion/react";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Accordion, AccordionDetails, AccordionSummary, Input, Typography } from "@mui/material";
+import { IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import { Box, Theme, useTheme } from "@mui/system";
 import GlassyLogo from "../../assets/images/png/startingViewpngs/GlassyLogo.png";
 import NewsletterBackground from "../../assets/images/png/startingViewpngs/newsletterBackground.png";
+import { CommonButton } from "./Button";
 
 const NewsletterCss = {
   box: (theme: Theme) =>
@@ -16,6 +15,35 @@ const NewsletterCss = {
       alignItems: "center",
       justifyContent: "start",
       color: theme.palette.common.white
+    }),
+  input: (theme: Theme) =>
+    css({
+      border: "1px solid #D9D9D9",
+      borderRadius: "15px",
+      width: "30%",
+      "&:: after": {
+        borderColor: theme.palette.primary.main,
+        borderBottomColor: `${theme.palette.primary.main} !important`,
+        borderRadius: "15px !important"
+      },
+      "&: hover": {
+        "&:: after": {
+          borderBottom: `2px solid ${theme.palette.secondary.main} !important`,
+          borderRadius: "15px !important"
+        }
+      },
+      "& .MuiFilledInput-underline:before": {
+        borderRadius: "15px",
+        height: "20rem"
+      },
+      "& .MuiFilledInput-underline:after": {
+        borderRadius: "15px",
+        height: "100%"
+      },
+      "& .MuiFilledInput-root.Mui-focused:after": {
+        borderRadius: "15px",
+        height: "100%"
+      }
     })
 };
 
@@ -50,13 +78,18 @@ export const Newsletter = () => {
         <Typography variant="h2" fontSize="2rem" width="20rem" textAlign="center">
           Sign up to get latest app updates
         </Typography>
-        <Input
+        <TextField
+          variant="filled"
           placeholder="Enter your email"
-          sx={{
-            border: "1px solid #D9D9D9",
-            padding: "0.5rem",
-            borderRadius: "10px",
-            width: "30%"
+          css={NewsletterCss.input(theme)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => {}}>
+                  <CommonButton text="Sign up" />
+                </IconButton>
+              </InputAdornment>
+            )
           }}
         />
       </Box>

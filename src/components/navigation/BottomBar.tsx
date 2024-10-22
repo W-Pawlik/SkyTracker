@@ -1,8 +1,7 @@
 import { css, useTheme } from "@emotion/react";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import { AppBar, Box, Divider, Theme, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { socialMediaIcons } from "../../consts/data/SocialMediaIcons";
 import { SocialMediaContainer } from "../containers/SocialMediaContainer";
 
 const bottomBarCss = {
@@ -21,8 +20,7 @@ const bottomBarCss = {
       alignItems: "center",
       textAlign: "center",
       padding: "0.8rem 1rem",
-      borderTop: `thin solid ${theme.palette.common.lightGrey}`,
-      fontWeight: "600"
+      borderTop: `thin solid ${theme.palette.common.lightGrey}`
     }),
   leftContent: () =>
     css({
@@ -34,17 +32,13 @@ const bottomBarCss = {
     css({
       textDecoration: "none",
       color: theme.palette.common.white,
-      fontWeight: "bold",
+      fontWeight: "600",
       "&:hover": {
-        color: "#d1d0d0"
+        // color: "#d1d0d0"
+        color: theme.palette.primary.main
       }
     })
 };
-
-const socialMediaIcons = [
-  { icon: FacebookIcon, url: "https://www.facebook.com" },
-  { icon: InstagramIcon, url: "https://www.instagram.com/" }
-];
 
 export const BottomBar = () => {
   const theme: Theme = useTheme();
@@ -56,7 +50,7 @@ export const BottomBar = () => {
     >
       <Box css={bottomBarCss.footerContent} sx={{ flexDirection: { xs: "column", md: "row" } }}>
         <Box css={bottomBarCss.leftContent}>
-          <Typography variant="body1" sx={{ fontWeight: "600" }}>
+          <Typography variant="body1" sx={{ fontWeight: "200" }}>
             Copyright &copy;2024 SkyTracker. All rights reserved.
           </Typography>
           <Divider
@@ -68,7 +62,7 @@ export const BottomBar = () => {
               borderColor: theme.palette.common.white
             }}
           />
-          <Typography variant="body1" sx={{ fontWeight: "600" }}>
+          <Typography variant="body1" sx={{ fontWeight: "200" }}>
             Designed by Wojciech pawlik{" "}
           </Typography>
           <Divider
