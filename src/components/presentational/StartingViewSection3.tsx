@@ -53,10 +53,10 @@ export const StartingViewSection3 = () => {
           padding: { xs: "2rem", sm: "3rem", md: "4rem" }
         }}
       >
-        <Typography variant="h1">
+        <Typography component="div" variant="h1">
           With <Box component="img" src={Logo} /> you'll get
         </Typography>
-        <Typography variant="body1" sx={{ maxWidth: "40rem" }}>
+        <Box component="div" sx={{ maxWidth: "40rem" }}>
           <List>
             {items.map((item, index) => (
               <ListItem css={StartingViewSection3Css.listItem} key={index}>
@@ -67,7 +67,8 @@ export const StartingViewSection3 = () => {
               </ListItem>
             ))}
           </List>
-        </Typography>
+        </Box>
+
         <CommonButton text="Sign In" color="secondary" size="large" />
       </Box>
     </Box>

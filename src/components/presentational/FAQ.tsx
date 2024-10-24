@@ -35,7 +35,7 @@ const FAQCss = {
         borderBottomLeftRadius: "10px",
         borderBottomRightRadius: "10px"
       },
-      "&:first-child": {
+      "&:first-of-type": {
         borderTopLeftRadius: "10px",
         borderTopRightRadius: "10px"
       }

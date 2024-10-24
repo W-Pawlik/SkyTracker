@@ -79,7 +79,7 @@ export const ContactSection = () => {
             }}
           />
           <Typography fontWeight="bold">Floow us</Typography>
-          <Typography sx={{ color: theme.palette.primary.main }}>
+          <Typography component="div" sx={{ color: theme.palette.primary.main }}>
             <SocialMediaContainer icons={socialMediaIcons} />
           </Typography>
         </Box>

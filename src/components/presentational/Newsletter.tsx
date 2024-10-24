@@ -85,9 +85,7 @@ export const Newsletter = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => {}}>
-                  <CommonButton text="Sign up" />
-                </IconButton>
+                <CommonButton text="Sign up" />
               </InputAdornment>
             )
           }}

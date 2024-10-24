@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { css, Theme, useTheme } from "@emotion/react";
-import { Divider, TextField, Typography } from "@mui/material";
+import { Alert, Divider, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import SideBackground from "../assets/images/png/backgrounds/sideBackground.png";
@@ -91,6 +91,18 @@ const AuthViewCss = {
       "& .MuiFilledInput-underline:after": {
         borderRadius: "10px",
         height: "2rem"
+      },
+      "& input:-webkit-autofill": {
+        WebkitTextFillColor: "#6D6D70",
+        transition: "background-color 5000s ease-in-out 0s"
+      }
+    }),
+  error: (theme: Theme) =>
+    css({
+      backgroundColor: theme.palette.error.main,
+      borderRadius: "20px",
+      "& .MuiAlert-icon": {
+        color: "black"
       }
     })
 };
@@ -109,30 +121,33 @@ const AuthView = ({
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const handleChangeAuthView = () => {
+    setError("");
+    setEmail("");
+    setPassword("");
     navigate(`/${isLogin ? "register" : "login"}`);
   };
 
   const handleSubmit = async () => {
-    if (!isLogin) {
-      try {
-        await doCreateUserWithEmailAndPassword(email, password);
-        navigate("/app");
-      } catch (error) {
-        console.error("Rejestarcja nie powiodła się:", error);
-      }
-    } else if (isLogin) {
-      try {
-        navigate("/app");
-        await doSignInWithEmailAndPassword(email, password);
-      } catch (error) {
-        console.error("Logowanie nie powdiło się:", error);
-      }
+    setLoading(true);
+    setError("");
+
+    try {
+      await (isLogin
+        ? doSignInWithEmailAndPassword(email, password)
+        : doCreateUserWithEmailAndPassword(email, password));
+      navigate("/app");
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -183,7 +198,17 @@ const AuthView = ({
             showPassword={showPassword}
           />
         </Box>
-        <CommonButton text={buttonText} size="large" onClick={handleSubmit} />
+        <CommonButton
+          text={loading === true ? "loading" : buttonText}
+          size="large"
+          onClick={handleSubmit}
+          disabled={loading}
+        />
+        {error ? (
+          <Alert severity="error" css={AuthViewCss.error}>
+            {error}
+          </Alert>
+        ) : null}
       </Box>
       <Box css={AuthViewCss.ctaSection}>
         <Typography variant="h1">{ctaTitle}</Typography>

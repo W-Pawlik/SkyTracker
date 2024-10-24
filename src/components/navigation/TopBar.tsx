@@ -30,7 +30,6 @@ const topBarCss = {
       fontSize: "1.56rem",
       textDecoration: "none",
       "&.active": {
-        // color: theme.palette.primary.main,
         fontWeight: "bold",
         textDecoration: `underline 3px solid ${theme.palette.primary.main}`
       },

@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return unsubscribe;
   }, []);
 
-  async function initializeUser(user: User | null) {
+  function initializeUser(user: User | null) {
     if (user) {
       setCurrentUser({ ...user });
       setUserLoggedIn(true);
