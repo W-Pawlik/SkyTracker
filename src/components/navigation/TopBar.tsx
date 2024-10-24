@@ -30,8 +30,9 @@ const topBarCss = {
       fontSize: "1.56rem",
       textDecoration: "none",
       "&.active": {
-        color: theme.palette.primary.main,
-        fontWeight: "bold"
+        // color: theme.palette.primary.main,
+        fontWeight: "bold",
+        textDecoration: `underline 3px solid ${theme.palette.primary.main}`
       },
       "&:hover": {
         color: "#d1d0d0"
@@ -49,7 +50,7 @@ const topBarCss = {
     })
 };
 
-const navItems = ["Login", "Signup"];
+const navItems = ["login", "register"];
 
 export const TopBar = () => {
   const theme: Theme = useTheme();
@@ -100,7 +101,7 @@ export const TopBar = () => {
       <Toolbar css={topBarCss.toolBar}>
         <IconButton
           onClick={() => {
-            navigate("/home");
+            navigate("/");
           }}
           disableRipple
           disableFocusRipple

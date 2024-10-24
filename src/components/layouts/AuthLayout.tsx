@@ -1,9 +1,30 @@
+import { css, useTheme } from "@emotion/react";
+import { Theme } from "@mui/material";
+import { Box } from "@mui/system";
 import { Outlet } from "react-router-dom";
+import { LayoutWrapper } from "../containers/LayoutWrapper";
 import { TopBar } from "../navigation/TopBar";
 
-export const AuthLayout = () => (
-  <>
-    <TopBar />
-    <Outlet />
-  </>
-);
+const AuthLayoutCss = {
+  outlet: (theme: Theme) =>
+    css({
+      position: "relative",
+      display: "flex",
+      flexGrow: "1",
+      color: theme.palette.common.white,
+      height: "90vh"
+    })
+};
+
+export const AuthLayout = () => {
+  const theme: Theme = useTheme();
+
+  return (
+    <LayoutWrapper>
+      <TopBar />
+      <Box css={AuthLayoutCss.outlet(theme)}>
+        <Outlet />
+      </Box>
+    </LayoutWrapper>
+  );
+};
