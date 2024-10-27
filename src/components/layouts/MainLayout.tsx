@@ -1,7 +1,9 @@
 import { css, useTheme } from "@emotion/react";
 import { Theme } from "@mui/material";
 import { Box } from "@mui/system";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { navItemsApp, navItemsStarterPage } from "../../consts/navItems";
+import { useAuth } from "../../contexts/authContext/AuthContext";
 import { LayoutWrapper } from "../containers/LayoutWrapper";
 import { BottomBar } from "../navigation/BottomBar";
 import { TopBar } from "../navigation/TopBar";
@@ -19,10 +21,22 @@ const MainLayoutCss = {
 
 export const MainLayout = () => {
   const theme: Theme = useTheme();
+  const loc = useLocation();
+  const appTopBar = loc.pathname === "/app" || loc.pathname === "/app/";
+
+  const authContext = useAuth();
+
+  if (!authContext) {
+    return null;
+  }
 
   return (
     <LayoutWrapper>
-      <TopBar />
+      {appTopBar ? (
+        <TopBar navItems={navItemsApp(theme, authContext)} />
+      ) : (
+        <TopBar navItems={navItemsStarterPage(theme)} />
+      )}
       <Box css={MainLayoutCss.outlet(theme)}>
         <Outlet />
       </Box>

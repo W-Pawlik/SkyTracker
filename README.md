@@ -4,15 +4,18 @@
 
 ## Technologies Used
 
-- ![React](https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg) React
-- ![TypeScript](https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg)
-  TypeScript
-- ![Redux](https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg)
+<p align="left">
+ <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="40" height="40"/>
+  
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="TypeScript" width="40" height="40"/>
+  
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="Redux" width="40" height="40"/>
   Redux
-- ![Firebase](https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg)
-  Firebase
-- ![Material UI](https://mui.com/static/logo.png) Material UI
-- ![Emotion](https://www.hoseinh.com/wp-content/uploads/2021/04/emotion.png) Emotion
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg" alt="Firebase" width="40" height="40"/>
+  
+<img src="https://mui.com/static/logo.png" alt="Material UI" width="40" height="40"/>
+<img src="https://www.hoseinh.com/wp-content/uploads/2021/04/emotion.png" alt="Emotion" width="40" height="40"/>
+</p>
 
 ## Features
 

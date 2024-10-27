@@ -8,9 +8,11 @@ import FacebookIcon from "../assets/images/png/facebookIcon.png";
 import GoogleIcon from "../assets/images/png/googleIcon.png";
 import { CommonButton } from "../components/presentational/Button";
 import { PasswordField } from "../components/presentational/PasswordField";
+import { useAuthAction } from "../hooks/useAuthAction";
 import {
   doCreateUserWithEmailAndPassword,
-  doSignInWithEmailAndPassword
+  doSignInWithEmailAndPassword,
+  doSignInWithGoogle
 } from "../services/fireBase/auth";
 import { AuthViewProps } from "../types/authView";
 
@@ -121,34 +123,28 @@ const AuthView = ({
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const { handleAuthAction, loading, error, setError } = useAuthAction();
+
+  const handleSubmit = () => {
+    handleAuthAction(() =>
+      isLogin
+        ? doSignInWithEmailAndPassword(email, password)
+        : doCreateUserWithEmailAndPassword(email, password)
+    );
+  };
+
+  const handleGoogleIClick = () => handleAuthAction(doSignInWithGoogle);
 
   const handleChangeAuthView = () => {
     setError("");
     setEmail("");
     setPassword("");
     navigate(`/${isLogin ? "register" : "login"}`);
-  };
-
-  const handleSubmit = async () => {
-    setLoading(true);
-    setError("");
-
-    try {
-      await (isLogin
-        ? doSignInWithEmailAndPassword(email, password)
-        : doCreateUserWithEmailAndPassword(email, password));
-      navigate("/app");
-    } catch (error: any) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -162,7 +158,12 @@ const AuthView = ({
         </Typography>
         <Box display="flex" gap="1rem" alignItems="center">
           <Box component="img" src={FacebookIcon} sx={{ height: "4rem", cursor: "pointer" }} />
-          <Box component="img" src={GoogleIcon} sx={{ height: "3.2rem", cursor: "pointer" }} />
+          <Box
+            component="img"
+            src={GoogleIcon}
+            sx={{ height: "3.2rem", cursor: "pointer" }}
+            onClick={handleGoogleIClick}
+          />
         </Box>
         <Box display="flex" gap="1rem">
           <Divider

@@ -1,9 +1,20 @@
 import React, { useState } from "react";
 import { css, useTheme } from "@emotion/react";
+// eslint-disable-next-line import/no-unresolved
+import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, Divider, Drawer, IconButton, Theme, Toolbar } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/png/SKYTRACKER.png";
+
+interface navItem {
+  element: ReactJSXElement;
+}
+
+interface TopBarProps {
+  bottomBorder?: boolean;
+  navItems: navItem[];
+}
 
 const topBarCss = {
   appBar: () =>
@@ -49,9 +60,9 @@ const topBarCss = {
     })
 };
 
-const navItems = ["login", "register"];
+// const navItems = ["login", "register"];
 
-export const TopBar = () => {
+export const TopBar = ({ bottomBorder = true, navItems }: TopBarProps) => {
   const theme: Theme = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
@@ -60,10 +71,10 @@ export const TopBar = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const hanldeNavClick = (item: string) => {
-    navigate(`/${item}`);
-    window.scrollTo(0, 0);
-  };
+  // const hanldeNavClick = (item: string) => {
+  //   navigate(`/${item}`);
+  //   window.scrollTo(0, 0);
+  // };
 
   const drawer = (
     <Box
@@ -76,7 +87,7 @@ export const TopBar = () => {
         paddingTop: "2rem"
       }}
     >
-      {navItems.map((item, index) => (
+      {/* {navItems.map((item, index) => (
         <React.Fragment key={item}>
           <NavLink
             css={topBarCss.navLink(theme)}
@@ -87,7 +98,7 @@ export const TopBar = () => {
             {item}
           </NavLink>
         </React.Fragment>
-      ))}
+      ))} */}
     </Box>
   );
 
@@ -95,7 +106,10 @@ export const TopBar = () => {
     <AppBar
       css={topBarCss.appBar}
       component="nav"
-      sx={{ Width: { md: "100%", lg: "90rem" }, borderBottomColor: theme.palette.common.lightGrey }}
+      sx={{
+        Width: { md: "100%", lg: "90rem" },
+        borderBottom: bottomBorder ? `1px solid ${theme.palette.common.lightGrey}` : "none"
+      }}
     >
       <Toolbar css={topBarCss.toolBar}>
         <IconButton
@@ -119,15 +133,8 @@ export const TopBar = () => {
           css={topBarCss.navContainer}
         >
           {navItems.map((item, index) => (
-            <React.Fragment key={item}>
-              <NavLink
-                css={topBarCss.navLink}
-                onClick={() => hanldeNavClick(item)}
-                key={index}
-                to={`/${item}`}
-              >
-                {item}
-              </NavLink>
+            <React.Fragment key={index}>
+              {item.element}
               {index < navItems.length - 1 && (
                 <Divider
                   orientation="vertical"

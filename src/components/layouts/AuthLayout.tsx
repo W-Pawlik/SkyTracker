@@ -2,6 +2,7 @@ import { css, useTheme } from "@emotion/react";
 import { Theme } from "@mui/material";
 import { Box } from "@mui/system";
 import { Outlet } from "react-router-dom";
+import { navItemsAuth } from "../../consts/navItems";
 import { LayoutWrapper } from "../containers/LayoutWrapper";
 import { TopBar } from "../navigation/TopBar";
 
@@ -21,7 +22,7 @@ export const AuthLayout = () => {
 
   return (
     <LayoutWrapper>
-      <TopBar />
+      <TopBar bottomBorder={false} navItems={navItemsAuth(theme)} />
       <Box css={AuthLayoutCss.outlet(theme)}>
         <Outlet />
       </Box>
