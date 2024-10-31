@@ -51,16 +51,18 @@ const navItemsCss = {
     })
 };
 
-export const navItemsStarterPage = (theme: Theme) => [
+export const navItemsStarterPage = (theme: Theme, authContext: AuthContextType) => [
   {
     element: (
-      <NavLink to={`/login`} css={navItemsCss.navLink(theme)}>
-        Login
+      <NavLink to={authContext.userLoggedIn ? `/app` : `/login`} css={navItemsCss.navLink(theme)}>
+        {authContext.userLoggedIn ? "Go back to app" : "Login"}
       </NavLink>
     )
   },
   {
-    element: (
+    element: authContext.userLoggedIn ? (
+      <CommonButton text="signOut" onClick={doSignOut} />
+    ) : (
       <NavLink to={`/register`} css={navItemsCss.navLink(theme)}>
         Register
       </NavLink>

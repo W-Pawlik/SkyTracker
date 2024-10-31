@@ -1,7 +1,6 @@
 import { Typography } from "@mui/material";
-import { CommonButton } from "../components/presentational/Button";
 import { useAuth } from "../contexts/authContext/AuthContext";
-import { doSignOut } from "../services/fireBase/auth";
+import { MapView } from "./MapView";
 
 const App = () => {
   const authContext = useAuth();
@@ -12,7 +11,7 @@ const App = () => {
       <Typography variant="body1">
         Welcome back {authContext?.currentUser?.displayName || authContext?.currentUser?.email}{" "}
       </Typography>
-      <CommonButton text="Sign out" size="large" onClick={() => doSignOut()} />
+      <MapView />
     </>
   );
 };

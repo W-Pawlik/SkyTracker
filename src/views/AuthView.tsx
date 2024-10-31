@@ -106,6 +106,14 @@ const AuthViewCss = {
       "& .MuiAlert-icon": {
         color: "black"
       }
+    }),
+  warning: (theme: Theme) =>
+    css({
+      backgroundColor: theme.palette.warning.main,
+      borderRadius: "20px",
+      "& .MuiAlert-icon": {
+        color: "black"
+      }
     })
 };
 
@@ -120,15 +128,10 @@ const AuthView = ({
   const theme: Theme = useTheme();
   const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const { handleAuthAction, loading, error, setError } = useAuthAction();
+  const { handleAuthAction, loading, error, setError, warning } = useAuthAction();
 
   const handleSubmit = () => {
     handleAuthAction(() =>
@@ -192,12 +195,7 @@ const AuthView = ({
             onChange={(e) => setEmail(e.target.value)}
             css={AuthViewCss.inputStyle}
           />
-          <PasswordField
-            password={password}
-            setPassword={setPassword}
-            toggleVisibility={handleTogglePasswordVisibility}
-            showPassword={showPassword}
-          />
+          <PasswordField password={password} setPassword={setPassword} />
         </Box>
         <CommonButton
           text={loading === true ? "loading" : buttonText}
@@ -208,6 +206,11 @@ const AuthView = ({
         {error ? (
           <Alert severity="error" css={AuthViewCss.error}>
             {error}
+          </Alert>
+        ) : null}
+        {warning ? (
+          <Alert severity="warning" css={AuthViewCss.warning}>
+            {warning}
           </Alert>
         ) : null}
       </Box>

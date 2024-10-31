@@ -35,7 +35,7 @@ export const MainLayout = () => {
       {appTopBar ? (
         <TopBar navItems={navItemsApp(theme, authContext)} />
       ) : (
-        <TopBar navItems={navItemsStarterPage(theme)} />
+        <TopBar navItems={navItemsStarterPage(theme, authContext)} />
       )}
       <Box css={MainLayoutCss.outlet(theme)}>
         <Outlet />
