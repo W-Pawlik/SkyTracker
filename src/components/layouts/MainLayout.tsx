@@ -22,7 +22,7 @@ const MainLayoutCss = {
 export const MainLayout = () => {
   const theme: Theme = useTheme();
   const loc = useLocation();
-  const appTopBar = loc.pathname === "/app" || loc.pathname === "/app/";
+  const appTopBar = loc.pathname.startsWith("/app");
 
   const authContext = useAuth();
 

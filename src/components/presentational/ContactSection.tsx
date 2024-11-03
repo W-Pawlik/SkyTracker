@@ -13,7 +13,7 @@ const ContactSectionCss = {
       gap: "1rem",
       alignItems: "center",
       justifyContent: "center",
-      padding: "0 4rem"
+      padding: "4rem 4rem"
     }),
   leftSide: () =>
     css({

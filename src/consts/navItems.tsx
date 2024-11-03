@@ -1,6 +1,10 @@
 import { css, Theme } from "@emotion/react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import MapIcon from "@mui/icons-material/Map";
 import PersonIcon from "@mui/icons-material/Person";
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { NavLink } from "react-router-dom";
@@ -48,6 +52,29 @@ const navItemsCss = {
       "&:hover": {
         color: theme.palette.primary.main
       }
+    }),
+  sideBarField: (theme: Theme) =>
+    css({
+      backgroundColor: theme.palette.background.paper,
+      padding: "0.8rem",
+      borderRadius: "10px 0 0 10px",
+      "&:hover": {
+        color: theme.palette.primary.main
+      }
+    }),
+  sideBarIcon: (theme: Theme) =>
+    css({
+      fontSize: "2.5rem",
+      "&:hover": {
+        color: theme.palette.primary.main
+      }
+    }),
+  sideBarLink: (theme: Theme) =>
+    css({
+      color: "white",
+      "&.active": {
+        color: theme.palette.primary.main
+      }
     })
 };
 
@@ -93,5 +120,44 @@ export const navItemsApp = (theme: Theme, authContext: AuthContextType) => [
   },
   {
     element: <CommonButton text="Sign out" onClick={doSignOut} />
+  }
+];
+
+export const navItemsSideBar = () => [
+  {
+    element: (
+      <Box css={navItemsCss.sideBarField}>
+        <NavLink to={`/app/map`} css={navItemsCss.sideBarLink}>
+          <MapIcon css={navItemsCss.sideBarIcon} />
+        </NavLink>
+      </Box>
+    )
+  },
+  {
+    element: (
+      <Box css={navItemsCss.sideBarField}>
+        <NavLink to={`/app/analytics`} css={navItemsCss.sideBarLink}>
+          <BarChartIcon css={navItemsCss.sideBarIcon} />
+        </NavLink>
+      </Box>
+    )
+  },
+  {
+    element: (
+      <Box css={navItemsCss.sideBarField}>
+        <NavLink to={`/app/plans`} css={navItemsCss.sideBarLink}>
+          <WorkspacePremiumIcon css={navItemsCss.sideBarIcon} />
+        </NavLink>
+      </Box>
+    )
+  },
+  {
+    element: (
+      <Box css={navItemsCss.sideBarField}>
+        <NavLink to={`/app/AccountSettings`} css={navItemsCss.sideBarLink}>
+          <ManageAccountsIcon css={navItemsCss.sideBarIcon} />
+        </NavLink>
+      </Box>
+    )
   }
 ];
