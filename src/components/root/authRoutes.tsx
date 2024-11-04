@@ -1,5 +1,6 @@
 import { navigationRoutes } from "../../consts/navigationRoutes";
-import AuthView from "../../views/AuthView";
+import AuthView from "../../views/auth/AuthView";
+import ResetPasswordView from "../../views/auth/ResetPasswordView";
 
 export const authRoutes = [
   {
@@ -26,5 +27,9 @@ export const authRoutes = [
         isCtaOnLeft
       />
     )
+  },
+  {
+    path: navigationRoutes.ResetPassword,
+    element: <ResetPasswordView />
   }
 ];

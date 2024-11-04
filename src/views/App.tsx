@@ -3,7 +3,6 @@ import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { SideBar } from "../components/navigation/SideBar";
 import { navItemsSideBar } from "../consts/navItems";
-import { useAuth } from "../contexts/authContext/AuthContext";
 
 const AppCss = {
   box: () =>

@@ -2,8 +2,10 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
+  updatePassword,
   User
 } from "firebase/auth";
 import { auth } from "./firebaseConfig";
@@ -62,3 +64,36 @@ const waitForEmailVerification = async (user: User) =>
   });
 
 export const doSignOut = () => auth.signOut();
+
+export const doPasswordReset = async (email: string) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return {
+      success: true,
+      message: "If an account with this email exists, a reset email has been sent."
+    };
+  } catch (error: any) {
+    let errorMessage = "There was an error.";
+
+    switch (error.code) {
+      case "auth/invalid-email": {
+        errorMessage = "Invalid email format.";
+        break;
+      }
+      case "auth/user-not-found": {
+        errorMessage = "If an account with this email exists, a reset email has been sent.";
+        break;
+      }
+      case "auth/network-request-failed": {
+        errorMessage = "There was a network error. Please try again.";
+        break;
+      }
+      default: {
+        errorMessage = "An error occurred. Please try again.";
+        break;
+      }
+    }
+
+    return { success: false, message: errorMessage };
+  }
+};

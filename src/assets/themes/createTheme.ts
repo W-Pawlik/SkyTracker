@@ -152,6 +152,65 @@ export const createTheme = (): MuiTheme => {
             }
           }
         }
+      },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "&.MuiTextField-secondary": {
+              height: "3rem",
+              backgroundColor: "#EAEFFF",
+              borderRadius: "10px",
+              "& .MuiFilledInput-root::before": {
+                borderBottom: "none",
+                borderBottomRightRadius: "10px !important"
+              },
+              "&:hover": {
+                "& .MuiFilledInput-root::before": {
+                  borderBottomRightRadius: "10px !important",
+                  borderBottom: `2px solid ${palette.background.paper}`,
+                  borderRadius: "10px"
+                }
+              },
+              "& .MuiFilledInput-input": {
+                height: "100%",
+                padding: "13px 10px",
+                fontSize: "1.2rem",
+                color: "#6D6D70"
+              },
+              "& .MuiInputBase-input::placeholder": {
+                color: "#6D6D70",
+                opacity: "1"
+              },
+              "& .MuiFilledInput-underline:after": {
+                borderRadius: "10px",
+                height: "2rem"
+              },
+              "& input:-webkit-autofill": {
+                WebkitTextFillColor: "#6D6D70",
+                transition: "background-color 5000s ease-in-out 0s"
+              }
+            }
+          }
+        }
+      },
+      MuiAlert: {
+        styleOverrides: {
+          root: {
+            borderRadius: "20px"
+          },
+          standardError: {
+            backgroundColor: palette.error.main,
+            "& .MuiAlert-icon": {
+              color: "black"
+            }
+          },
+          standardWarning: {
+            backgroundColor: palette.warning.main,
+            "& .MuiAlert-icon": {
+              color: "black"
+            }
+          }
+        }
       }
     }
   });

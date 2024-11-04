@@ -2,19 +2,20 @@ import { useState } from "react";
 import { css, Theme, useTheme } from "@emotion/react";
 import { Alert, Divider, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useNavigate } from "react-router-dom";
-import SideBackground from "../assets/images/png/backgrounds/sideBackground.png";
-import FacebookIcon from "../assets/images/png/facebookIcon.png";
-import GoogleIcon from "../assets/images/png/googleIcon.png";
-import { CommonButton } from "../components/presentational/Button";
-import { PasswordField } from "../components/presentational/PasswordField";
-import { useAuthAction } from "../hooks/useAuthAction";
+import { Link, useNavigate } from "react-router-dom";
+import SideBackground from "../../assets/images/png/backgrounds/sideBackground.png";
+import FacebookIcon from "../../assets/images/png/facebookIcon.png";
+import GoogleIcon from "../../assets/images/png/googleIcon.png";
+import { CommonButton } from "../../components/presentational/Button";
+import { PasswordField } from "../../components/presentational/PasswordField";
+import { navigationRoutes } from "../../consts/navigationRoutes";
+import { useAuthAction } from "../../hooks/useAuthAction";
 import {
   doCreateUserWithEmailAndPassword,
   doSignInWithEmailAndPassword,
   doSignInWithGoogle
-} from "../services/fireBase/auth";
-import { AuthViewProps } from "../types/authView";
+} from "../../services/fireBase/auth";
+import { AuthViewProps } from "../../types/authView";
 
 const AuthViewCss = {
   box: (theme: Theme, isCtaOnLeft: boolean) =>
@@ -61,42 +62,6 @@ const AuthViewCss = {
         height: "2px",
         width: "100%",
         backgroundColor: theme.palette.secondary.main
-      }
-    }),
-  inputStyle: (theme: Theme) =>
-    css({
-      height: "3rem",
-      backgroundColor: "#EAEFFF",
-      borderRadius: "10px",
-
-      "& .MuiFilledInput-root::before": {
-        borderBottom: "none",
-        borderBottomRightRadius: "10px !important"
-      },
-      "&: hover": {
-        "& .MuiFilledInput-root::before": {
-          borderBottomRightRadius: "10px !important",
-          borderBottom: `2px solid ${theme.palette.background.paper}`,
-          borderRadius: "10px"
-        }
-      },
-      "& .MuiFilledInput-input": {
-        height: "100%",
-        padding: "13px 10px",
-        fontSize: "1.2rem",
-        color: "#6D6D70"
-      },
-      "& .MuiInputBase-input::placeholder": {
-        color: "#6D6D70",
-        opacity: "1"
-      },
-      "& .MuiFilledInput-underline:after": {
-        borderRadius: "10px",
-        height: "2rem"
-      },
-      "& input:-webkit-autofill": {
-        WebkitTextFillColor: "#6D6D70",
-        transition: "background-color 5000s ease-in-out 0s"
       }
     }),
   error: (theme: Theme) =>
@@ -193,10 +158,26 @@ const AuthView = ({
             fullWidth
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            css={AuthViewCss.inputStyle}
+            className="MuiTextField-secondary"
           />
           <PasswordField password={password} setPassword={setPassword} />
         </Box>
+        {isLogin ? (
+          <Link to={`/${navigationRoutes.ResetPassword}`} style={{ textDecoration: "none" }}>
+            <Typography
+              sx={{
+                textDecoration: "none",
+                color: theme.palette.text.primary,
+                "&:hover": {
+                  color: theme.palette.primary.main
+                }
+              }}
+            >
+              Forgot Password?
+            </Typography>
+          </Link>
+        ) : null}
+
         <CommonButton
           text={loading === true ? "loading" : buttonText}
           size="large"
