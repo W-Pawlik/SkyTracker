@@ -7,10 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
 
 # Editor directories and files
 .vscode/*
@@ -22,5 +22,18 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-firebaseConfig.ts
-.env
+
+# Config files
+frontend/firebaseConfig.ts
+frontend/.env
+backend/.env
+
+# Python venv
+venv/
+db.sqlite3
+
+# Temporary files
+*.pyc
+__pycache__/
+.DS_Store
+*.pyc
