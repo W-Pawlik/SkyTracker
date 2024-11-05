@@ -26,10 +26,6 @@ export const MainLayout = () => {
 
   const authContext = useAuth();
 
-  if (!authContext) {
-    return null;
-  }
-
   return (
     <LayoutWrapper>
       {appTopBar ? (

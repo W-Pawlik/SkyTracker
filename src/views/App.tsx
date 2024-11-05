@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { css, Theme, useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { SideBar } from "../components/navigation/SideBar";
 import { navItemsSideBar } from "../consts/navItems";
+import { useAuth } from "../contexts/authContext/AuthContext";
 
 const AppCss = {
   box: () =>
@@ -30,6 +32,14 @@ const AppCss = {
 
 const App = () => {
   const theme: Theme = useTheme();
+  const navigate = useNavigate();
+  const { isEmailVerified } = useAuth();
+
+  useEffect(() => {
+    if (isEmailVerified) {
+      navigate("/app/map");
+    }
+  }, [isEmailVerified, navigate]);
 
   return (
     <Box css={AppCss.box}>

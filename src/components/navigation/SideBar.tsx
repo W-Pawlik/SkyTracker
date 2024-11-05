@@ -26,7 +26,6 @@ const SideBarCss = {
 
 export const SideBar = ({ navItems }: TopBarProps) => {
   const theme: Theme = useTheme();
-  const navigate = useNavigate();
 
   return (
     <Box css={SideBarCss.box(theme)}>

@@ -4,4 +4,5 @@ export interface AuthContextType {
   currentUser: User | null;
   userLoggedIn: boolean;
   loading: boolean;
+  isEmailVerified: boolean;
 }

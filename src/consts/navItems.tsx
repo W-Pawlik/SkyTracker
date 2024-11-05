@@ -3,11 +3,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import MapIcon from "@mui/icons-material/Map";
-import PersonIcon from "@mui/icons-material/Person";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { NavLink } from "react-router-dom";
+import ProfilePic from "../assets/images/webp/profilePic.webp";
 import { CommonButton } from "../components/presentational/Button";
 import { doSignOut } from "../services/fireBase/auth";
 import { AuthContextType } from "../types/authContext";
@@ -75,6 +75,11 @@ const navItemsCss = {
       "&.active": {
         color: theme.palette.primary.main
       }
+    }),
+  profileIcon: () =>
+    css({
+      width: "2.5rem",
+      borderRadius: "50%"
     })
 };
 
@@ -112,9 +117,14 @@ export const navItemsAuth = (theme: Theme) => [
 export const navItemsApp = (theme: Theme, authContext: AuthContextType) => [
   {
     element: (
-      <Box display="flex" gap="1rem">
+      <Box display="flex" alignItems="center" gap="1rem">
         <Typography variant="body1">Hello {authContext?.currentUser?.email}</Typography>
-        <PersonIcon />
+        <Box
+          component="img"
+          src={authContext?.currentUser?.photoURL || ProfilePic}
+          css={navItemsCss.profileIcon}
+          alt="ProfileIcon"
+        />
       </Box>
     )
   },

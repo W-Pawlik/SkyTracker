@@ -12,17 +12,21 @@ export const useAuthAction = () => {
   const handleAuthAction = async (authFunction: AuthFunction) => {
     setLoading(true);
     setError(null);
-    setWarning("Verify your email address");
+    setWarning(null);
 
     try {
-      await authFunction();
-      navigate("/app");
+      const result = await authFunction();
+
+      if (result?.success) {
+        setWarning("Verify your email address to complete registration.");
+        navigate("/login");
+      } else {
+        navigate("/app");
+      }
     } catch (error: any) {
-      setWarning(null);
       setError(error?.message || "Unexpected error occurred");
     } finally {
       setLoading(false);
-      setWarning(null);
     }
   };
 

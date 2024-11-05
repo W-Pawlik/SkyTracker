@@ -4,21 +4,25 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  signInWithPopup,
-  updatePassword,
-  User
+  signInWithPopup
 } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 
 export const doCreateUserWithEmailAndPassword = async (email: string, password: string) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const { user } = userCredential;
 
-    await doSendEmailVerification();
+    await sendEmailVerification(user, {
+      url: `${window.location.origin}/app`
+    });
 
-    await waitForEmailVerification(userCredential.user);
+    doSignOut();
 
-    return userCredential;
+    return {
+      success: true,
+      message: "Account created. Please verify your email to complete registration."
+    };
   } catch (error: any) {
     throw new Error(error.message);
   }
@@ -27,7 +31,15 @@ export const doCreateUserWithEmailAndPassword = async (email: string, password: 
 export const doSignInWithEmailAndPassword = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    return userCredential;
+    const { user } = userCredential;
+
+    // eslint-disable-next-line unicorn/no-negated-condition
+    if (!user.emailVerified) {
+      doSignOut();
+      throw new Error("Please verify your email before logging in.");
+    } else {
+      return userCredential;
+    }
   } catch (error: any) {
     throw new Error(error.message);
   }
@@ -43,25 +55,6 @@ export const doSignInWithGoogle = async () => {
     throw new Error(error.message);
   }
 };
-
-export const doSendEmailVerification = () =>
-  auth.currentUser
-    ? sendEmailVerification(auth.currentUser, {
-        url: `${window.location.origin}/app`
-      })
-    : Promise.reject(new Error("No authenticated user found"));
-
-// eslint-disable-next-line require-await
-const waitForEmailVerification = async (user: User) =>
-  new Promise<void>((resolve) => {
-    const checkVerification = setInterval(async () => {
-      await user.reload();
-      if (user.emailVerified) {
-        clearInterval(checkVerification);
-        resolve();
-      }
-    }, 3000);
-  });
 
 export const doSignOut = () => auth.signOut();
 
