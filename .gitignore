@@ -24,9 +24,10 @@ frontend/*.local
 *.sw?
 
 # Config files
-frontend/firebaseConfig.ts
 frontend/.env
 backend/.env
+frontend/src/services/fireBase/firebaseConfig.ts
+frontend\src\services\fireBase\firebaseConfig.ts
 
 # Python venv
 venv/
