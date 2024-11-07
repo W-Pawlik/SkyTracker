@@ -1,22 +1,43 @@
-import { APIProvider, Map } from "@vis.gl/react-google-maps";
+import Box from "@mui/system/Box";
+import { AdvancedMarker, APIProvider, Map } from "@vis.gl/react-google-maps";
+import planeIcon from "../../assets/icons/planeIcon.png";
 import { Coordinates } from "../../types/userLocation";
 
 interface GoogleMapProps {
   apiKey: string;
   mapId: string;
   defaultCenter: Coordinates;
-  zoom?: number;
+  defaultZoom?: number;
+  airplanes: any[];
 }
 
-export const BaseMap = ({ apiKey, mapId, defaultCenter, zoom = 9 }: GoogleMapProps) => (
+export const BaseMap = ({
+  apiKey,
+  mapId,
+  defaultCenter,
+  defaultZoom = 9,
+  airplanes
+}: GoogleMapProps) => (
   <APIProvider apiKey={apiKey}>
     <Map
-      zoom={zoom}
+      defaultZoom={defaultZoom}
       defaultCenter={defaultCenter}
       mapId={mapId}
       zoomControl
       gestureHandling={"greedy"}
-      disableDefaultUI
-    />
+      disableDefaultUI={false}
+    >
+      {airplanes.map((plane, index) => (
+        <AdvancedMarker key={index} position={{ lat: plane.latitude, lng: plane.longitude }}>
+          <Box
+            component="img"
+            src={planeIcon}
+            width={30}
+            height={30}
+            sx={{ transform: `rotate(${plane.true_track}deg)` }}
+          />
+        </AdvancedMarker>
+      ))}
+    </Map>
   </APIProvider>
 );
