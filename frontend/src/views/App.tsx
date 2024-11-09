@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { css, Theme, useTheme } from "@emotion/react";
 import { Box } from "@mui/material";
+import { Provider } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { SideBar } from "../components/navigation/SideBar";
 import { navItemsSideBar } from "../consts/navItems";
 import { useAuth } from "../contexts/authContext/AuthContext";
+import { store } from "../redux/store";
 
 const AppCss = {
   box: () =>
@@ -42,12 +44,14 @@ const App = () => {
   }, [isEmailVerified, navigate]);
 
   return (
-    <Box css={AppCss.box}>
-      <SideBar navItems={navItemsSideBar()} />
-      <Box css={AppCss.panelContent(theme)}>
-        <Outlet />
+    <Provider store={store}>
+      <Box css={AppCss.box}>
+        <SideBar navItems={navItemsSideBar()} />
+        <Box css={AppCss.panelContent(theme)}>
+          <Outlet />
+        </Box>
       </Box>
-    </Box>
+    </Provider>
   );
 };
 export default App;
