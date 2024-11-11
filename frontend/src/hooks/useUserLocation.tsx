@@ -9,10 +9,12 @@ export const useUserLocation = () => {
   });
 
   const [error, setError] = useState<string | boolean>(false);
+  const [hasInteracted, setHasInteracted] = useState<boolean>(false);
 
   useEffect(() => {
     if (!navigator.geolocation) {
       setError("Geolocation not supported by your browser");
+      setHasInteracted(true);
       return;
     }
 
@@ -23,14 +25,19 @@ export const useUserLocation = () => {
       };
       setUserLocation(newLocation);
       localStorage.setItem("userLocation", JSON.stringify(newLocation));
+      setHasInteracted(true);
     };
 
     const handleError = (error: GeolocationPositionError) => {
       setError(error.message);
+      setHasInteracted(true);
     };
 
+    // eslint-disable-next-line unicorn/no-negated-condition
     if (!localStorage.getItem("userLocation")) {
       navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
+    } else {
+      setHasInteracted(true);
     }
   }, []);
 
@@ -39,5 +46,5 @@ export const useUserLocation = () => {
     localStorage.removeItem("userLocation");
   };
 
-  return { userLocation, error, resetLocation };
+  return { userLocation, error, resetLocation, hasInteracted };
 };

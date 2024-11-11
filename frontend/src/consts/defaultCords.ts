@@ -1,1 +1,1 @@
-export const deafultCords = { lat: 53.549_92, lng: 10.006_78 };
+export const deafultCords = { lat: 52.237_049, lng: 21.017_532 };
