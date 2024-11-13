@@ -1,28 +1,27 @@
 import { useCallback, useEffect, useState } from "react";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { AirplaneDetails } from "../../components/presentational/AirplaneDetails";
 import { BaseMap } from "../../components/presentational/BaseMap";
+import { MapDetails } from "../../components/presentational/MapDetails";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useUserLocation } from "../../hooks/useUserLocation";
 import { mapDebouncedBounds } from "../../mappers/debouncedBoundsMapper";
-import {
-  selectAirplanes,
-  selectAirplanesError,
-  selectAirplanesLoading
-} from "../../redux/selectors/airplanesSelectors";
+import { selectAirplanes } from "../../redux/selectors/airplanesSelectors";
 import { fetchData } from "../../redux/slices/airplanesSlice";
+import { Airplane } from "../../types/Airplane";
 
 export const MapView = () => {
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const mapId = import.meta.env.VITE_PUBLIC_MAP_ID;
   const [mapBounds, setMapBounds] = useState<google.maps.LatLngBoundsLiteral | null>(null);
+  const [isAirplanesDetailsOpened, setIsAirplanesDetailsOpened] = useState<boolean>(false);
+  const [selectedAirplane, setSelectedAirplane] = useState<Airplane | null>(null);
 
   const dispatch = useAppDispatch();
   const airplanes = useAppSelector(selectAirplanes);
-  const loading = useAppSelector(selectAirplanesLoading);
-  const error = useAppSelector(selectAirplanesError);
 
   const { userLocation, hasInteracted } = useUserLocation();
 
@@ -31,6 +30,20 @@ export const MapView = () => {
   const handleBoundsChange = useCallback((bounds: google.maps.LatLngBoundsLiteral) => {
     setMapBounds(bounds);
   }, []);
+
+  const handleAirplaneClick = (plane: Airplane) => {
+    setIsAirplanesDetailsOpened(true);
+    setSelectedAirplane(plane);
+
+    console.log(plane);
+
+    console.log(`ICAO24: ${plane.icao24}`);
+    console.log(`Origin Country: ${plane.origin_country}`);
+    console.log(`Latitude: ${plane.latitude}`);
+    console.log(`Longitude: ${plane.longitude}`);
+    console.log(`Altitude: ${plane.baro_altitude}`);
+    console.log(`Velocity: ${plane.velocity}`);
+  };
 
   useEffect(() => {
     // const interval = setInterval(() => {
@@ -58,22 +71,14 @@ export const MapView = () => {
     >
       {hasInteracted ? (
         <>
-          <Box sx={{ padding: "1rem" }}>
-            <Typography variant="h2">Airplane details</Typography>
-            {loading ? (
-              <p>laoding...</p>
-            ) : error ? (
-              <Typography>Error</Typography>
+          <Box sx={{ width: "30rem", position: "relative" }}>
+            {isAirplanesDetailsOpened ? (
+              <AirplaneDetails
+                setIsAirplanesDetailsOpened={setIsAirplanesDetailsOpened}
+                selectedAirplane={selectedAirplane ?? null}
+              />
             ) : (
-              <Box sx={{ overflowY: "scroll", height: "90%" }}>
-                {airplanes
-                  ? airplanes.map((airplane, i) => (
-                      <Typography key={i} variant="body1">
-                        {airplane.icao24 ?? null}
-                      </Typography>
-                    ))
-                  : null}
-              </Box>
+              <MapDetails />
             )}
           </Box>
           <BaseMap
@@ -82,6 +87,7 @@ export const MapView = () => {
             defaultCenter={userLocation}
             airplanes={airplanes}
             onBoundsChanged={handleBoundsChange}
+            handleAirplaneClick={handleAirplaneClick}
           />
         </>
       ) : (

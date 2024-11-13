@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { airplanesInitialState } from "../../consts/initialStates/airplanesInitialState";
-import { fetchAirplanesData } from "../../services/openSkyNetwork/AirplanesDataService";
+import { AirplaneDataService } from "../../services/openSkyNetwork/AirplanesDataService";
 import { Airplane } from "../../types/Airplane";
 import { FetchDataParams } from "../../types/fetchDataParams";
 
 export const fetchData = createAsyncThunk(
   "airplanes/fetchData",
-  async (params: FetchDataParams) => await fetchAirplanesData(params)
+  async (params: FetchDataParams) => await AirplaneDataService.fetchAirplanesData(params)
 );
 
 const airplanesSlice = createSlice({

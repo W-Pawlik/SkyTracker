@@ -1,21 +1,36 @@
-/* eslint-disable max-len */
 import { Airplane } from "../../types/Airplane";
 import { FetchDataParams } from "../../types/fetchDataParams";
+import { IAirplaneDataService } from "../openSkyNetwork/IAirplanesDataService";
+import { ApiUrls } from "../urls/apiUrl";
 
-export const fetchAirplanesData = async ({
-  lamin,
-  lamax,
-  lomin,
-  lomax
-}: FetchDataParams): Promise<Airplane[]> => {
-  const response = await fetch(
-    `http://127.0.0.1:8000/api/flights-in-area/?lamin=${lamin}&lamax=${lamax}&lomin=${lomin}&lomax=${lomax}`
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch airplane data");
+export const AirplaneDataService: IAirplaneDataService = {
+  fetchAirplanesData: async (params: FetchDataParams): Promise<Airplane[]> => {
+    const url = ApiUrls.flightsInArea.getAll(
+      params.lamin,
+      params.lamax,
+      params.lomin,
+      params.lomax
+    );
+    return await fetchData(url);
   }
-
-  const data = await response.json();
-  return data.states as Airplane[];
 };
+
+async function fetchData<TOutput>(url: string): Promise<TOutput> {
+  try {
+    const response = await fetch(url, {
+      mode: "cors",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch airplane data");
+    }
+    const data = await response.json();
+
+    return data.states as TOutput;
+  } catch (error) {
+    throw new Error(`Error retrieving data from the server: ${error}`);
+  }
+}

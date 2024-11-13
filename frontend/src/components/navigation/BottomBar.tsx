@@ -1,7 +1,7 @@
 import { css, useTheme } from "@emotion/react";
 import { AppBar, Box, Divider, Theme, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { socialMediaIcons } from "../../consts/data/SocialMediaIcons";
+import { socialMediaIcons } from "../../consts/texts/SocialMediaIcons";
 import { SocialMediaContainer } from "../containers/SocialMediaContainer";
 
 const bottomBarCss = {

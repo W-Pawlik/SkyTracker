@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { Divider, Typography } from "@mui/material";
 import { Box, Theme, useTheme } from "@mui/system";
 import BackgroundShape from "../../assets/images/png/backgrounds/backgroundShape1.png";
-import { socialMediaIcons } from "../../consts/data/SocialMediaIcons";
+import { socialMediaIcons } from "../../consts/texts/SocialMediaIcons";
 import { SocialMediaContainer } from "../containers/SocialMediaContainer";
 import { ContactForm } from "../forms/ContactForm";
 

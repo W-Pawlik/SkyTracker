@@ -26,8 +26,6 @@ frontend/*.local
 # Config files
 frontend/.env
 backend/.env
-frontend/src/services/fireBase/firebaseConfig.ts
-frontend\src\services\fireBase\firebaseConfig.ts
 
 # Python venv
 venv/

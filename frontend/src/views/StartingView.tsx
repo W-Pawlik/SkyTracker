@@ -11,8 +11,8 @@ import { FAQ } from "../components/presentational/FAQ";
 import { HeroSection } from "../components/presentational/HeroSection";
 import { Newsletter } from "../components/presentational/Newsletter";
 import { StartingViewSection3 } from "../components/presentational/StartingViewSection3";
-import { FAQData } from "../consts/data/faqData";
-import { tabData } from "../consts/data/tabData";
+import { FAQData } from "../consts/texts/faqData";
+import { tabData } from "../consts/texts/tabData";
 
 const StartingView = () => (
   <>
