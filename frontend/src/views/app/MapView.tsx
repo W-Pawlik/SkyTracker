@@ -18,7 +18,7 @@ export const MapView = () => {
   const mapId = import.meta.env.VITE_PUBLIC_MAP_ID;
   const [mapBounds, setMapBounds] = useState<google.maps.LatLngBoundsLiteral | null>(null);
   const [isAirplanesDetailsOpened, setIsAirplanesDetailsOpened] = useState<boolean>(false);
-  const [selectedAirplane, setSelectedAirplane] = useState<Airplane | null>(null);
+  const [selectedAirplaneId, setSelectedAirplaneId] = useState<string | null>(null);
 
   const dispatch = useAppDispatch();
   const airplanes = useAppSelector(selectAirplanes);
@@ -33,16 +33,7 @@ export const MapView = () => {
 
   const handleAirplaneClick = (plane: Airplane) => {
     setIsAirplanesDetailsOpened(true);
-    setSelectedAirplane(plane);
-
-    console.log(plane);
-
-    console.log(`ICAO24: ${plane.icao24}`);
-    console.log(`Origin Country: ${plane.origin_country}`);
-    console.log(`Latitude: ${plane.latitude}`);
-    console.log(`Longitude: ${plane.longitude}`);
-    console.log(`Altitude: ${plane.baro_altitude}`);
-    console.log(`Velocity: ${plane.velocity}`);
+    setSelectedAirplaneId(plane.icao24);
   };
 
   useEffect(() => {
@@ -75,7 +66,7 @@ export const MapView = () => {
             {isAirplanesDetailsOpened ? (
               <AirplaneDetails
                 setIsAirplanesDetailsOpened={setIsAirplanesDetailsOpened}
-                selectedAirplane={selectedAirplane ?? null}
+                selectedAirplaneId={selectedAirplaneId ?? null}
               />
             ) : (
               <MapDetails />

@@ -1,4 +1,9 @@
-export async function getFlagByCountryName(countryName: string): Promise<string | null> {
+import AllFlags from "../assets/images/png/allFlags.png";
+
+export async function getFlagByCountryName(countryName: string | null): Promise<string | null> {
+  if (!countryName) {
+    return AllFlags;
+  }
   try {
     const response = await fetch(
       `https://restcountries.com/v3.1/name/${encodeURIComponent(countryName)}`
@@ -6,13 +11,13 @@ export async function getFlagByCountryName(countryName: string): Promise<string 
     const data = await response.json();
 
     if (!data || data.length === 0) {
-      console.warn(`Flaga dla ${countryName} nie została znaleziona`);
-      return null;
+      console.warn(`${countryName} flag not found`);
+      return AllFlags;
     }
 
     return data[0].flags.png;
   } catch (error: any) {
-    console.error(`Błąd przy pobieraniu flagi dla ${countryName}: ${error.message}`);
+    console.error(`Error ${countryName}: ${error.message}`);
     return null;
   }
 }

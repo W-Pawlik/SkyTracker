@@ -79,3 +79,19 @@ class FlightDataInAreaView(APIView):
             return Response(result, status=status.HTTP_503_SERVICE_UNAVAILABLE)
         
         return Response(result,status=status.HTTP_200_OK)
+
+class FlightDataByIcao24View(APIView):
+    
+    def get(self,request, icao24):
+        opensky_url = os.getenv("OPENSKY_API_URL")
+        result = fetch_flights_data(opensky_url)
+
+        if "error" in result:
+            return Response(result, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+            
+        airplane_data = next((flight for flight in result["states"] if flight["icao24"] == icao24), None)
+
+        if airplane_data is None:
+            return Response({"error": f"No data found for airplane with ICAO24: {icao24}"})
+            
+        return Response(airplane_data, status=status.HTTP_200_OK)
