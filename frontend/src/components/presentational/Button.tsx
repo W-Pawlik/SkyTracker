@@ -9,7 +9,7 @@ export interface CommonButtonProps {
   startIcon?: React.ReactNode;
   size?: "large" | "small" | "medium";
   type?: "button" | "submit" | "reset";
-  color?: "primary" | "secondary";
+  color?: "primary" | "secondary" | "error" | "warning";
 }
 
 const CommonButtonInternal = ({

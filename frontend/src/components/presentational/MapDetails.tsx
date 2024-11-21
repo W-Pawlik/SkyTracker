@@ -7,10 +7,16 @@ import { Typography } from "@mui/material";
 import { Box, Theme, useTheme } from "@mui/system";
 import { mapDetailsTexts } from "../../consts/texts/mapDetails";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { selectAirplanes, selectAirplanesError } from "../../redux/selectors/airplanesSelectors";
+import {
+  selectAirplanes,
+  selectAirplanesError,
+  selectAirplanesLoading
+} from "../../redux/selectors/airplanesSelectors";
 import { Airplane } from "../../types/Airplane";
 import { calcAvgProperty } from "../../utils/calcAvgProp";
 import { getFlagByCountryName } from "../../utils/getFlagByCountryName";
+import { MainLoader } from "./loaders/MainLoader";
+import ErrorImg from "../../assets/images/png/errorAirplane.png";
 
 const MapDetailsCss = {
   container: () =>
@@ -70,18 +76,22 @@ async function getFlagsForAllAirplanes(
 export const MapDetails = () => {
   const theme: Theme = useTheme();
   const airplanes = useAppSelector(selectAirplanes);
-  const loading = useAppSelector(selectAirplanesError);
+  const loading = useAppSelector(selectAirplanesLoading);
   const error = useAppSelector(selectAirplanesError);
 
   const avgVel = calcAvgProperty(airplanes, "velocity", true);
   const avgBaroAltitude = calcAvgProperty(airplanes, "baro_altitude");
 
   const [flags, setFlags] = useState<{ flagUrl: string; alt: string }[]>([]);
+  const [isLoadingFlags, setIsLoadingFlags] = useState(false);
 
   useEffect(() => {
     const fetchFlags = async () => {
+      setFlags([]);
+      setIsLoadingFlags(true);
       const fetchedFlags = await getFlagsForAllAirplanes(airplanes);
       setFlags(fetchedFlags);
+      setIsLoadingFlags(false);
     };
 
     fetchFlags();
@@ -93,9 +103,19 @@ export const MapDetails = () => {
         {mapDetailsTexts.title}
       </Typography>
       {loading ? (
-        <p>laoding...</p>
+        <MainLoader loaderSize="6rem" loaderMarginTop="8rem" />
       ) : error ? (
-        <Typography>{error}</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "2rem"
+          }}
+        >
+          <Typography>Couldn't find any aripalne in search area 🔎</Typography>
+          <Box component="img" src={ErrorImg} alt="Error Image" sx={{ width: "100%" }} />
+        </Box>
       ) : (
         <Box css={MapDetailsCss.calculationsCont}>
           <Box css={MapDetailsCss.calculationCont}>
@@ -118,18 +138,20 @@ export const MapDetails = () => {
           </Box>
           <Box css={MapDetailsCss.flagsCont} justifyContent="center">
             <Typography>{mapDetailsTexts.countries}</Typography>
-            <Box css={MapDetailsCss.flags}>
-              {flags.map((flag, index) => (
-                <Box
-                  key={index}
-                  component="img"
-                  src={flag.flagUrl}
-                  alt={flag.alt}
-                  sx={{ width: "2rem" }}
-                  title={flag.alt}
-                />
-              ))}
-            </Box>
+            {isLoadingFlags || flags.length === 0 ? null : (
+              <Box css={MapDetailsCss.flags}>
+                {flags.map((flag, index) => (
+                  <Box
+                    key={index}
+                    component="img"
+                    src={flag.flagUrl}
+                    alt={flag.alt}
+                    sx={{ width: "2rem" }}
+                    title={flag.alt}
+                  />
+                ))}
+              </Box>
+            )}
           </Box>
         </Box>
         // <Box sx={{ overflowY: "scroll", height: "90%" }}>

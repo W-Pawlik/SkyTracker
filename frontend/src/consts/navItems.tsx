@@ -10,6 +10,7 @@ import { NavLink } from "react-router-dom";
 import ProfilePic from "../assets/images/webp/profilePic.webp";
 import { CommonButton } from "../components/presentational/Button";
 import { doSignOut } from "../services/fireBase/auth";
+import { auth } from "../services/fireBase/firebaseConfig";
 import { AuthContextType } from "../types/authContext";
 
 const navItemsCss = {
@@ -118,7 +119,17 @@ export const navItemsApp = (theme: Theme, authContext: AuthContextType) => [
   {
     element: (
       <Box display="flex" alignItems="center" gap="1rem">
-        <Typography variant="body1">Hello {authContext?.currentUser?.email}</Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            color: theme.palette.text.primary,
+            fontSize: "1.5rem",
+            fontWeight: "500",
+            letterSpacing: "1px"
+          }}
+        >
+          {auth.currentUser?.displayName ?? auth.currentUser?.email}
+        </Typography>
         <Box
           component="img"
           src={authContext?.currentUser?.photoURL || ProfilePic}

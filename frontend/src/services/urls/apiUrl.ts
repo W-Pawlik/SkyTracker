@@ -7,5 +7,8 @@ export const ApiUrls = {
   },
   allFlights: {
     getAll: `${BaseApiUrl}/allflights/`
+  },
+  flightById: {
+    getAllData: (airplaneId: string) => `${BaseApiUrl}/airplane/${airplaneId}`
   }
 };

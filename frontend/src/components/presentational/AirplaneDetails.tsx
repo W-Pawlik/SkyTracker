@@ -1,26 +1,25 @@
 import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import CallIcon from "@mui/icons-material/Call";
+import GroundIcon from "@mui/icons-material/FlightLand";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import HeightIcon from "@mui/icons-material/Height";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PasswordIcon from "@mui/icons-material/Password";
+import SpeedIcon from "@mui/icons-material/Speed";
+import SquareFootIcon from "@mui/icons-material/SquareFoot";
+import VerticalAlignCenterIcon from "@mui/icons-material/VerticalAlignCenter";
 import { Button, Typography } from "@mui/material";
 import { Box, Theme, useTheme } from "@mui/system";
-import AllFlags from "../../assets/images/png/allFlags.png";
+import ErrorImage from "../../assets/images/png/errorAirplane.png";
 import { airplaneDetailsTexts } from "../../consts/texts/airplaneDetails";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { selectAirplanes } from "../../redux/selectors/airplanesSelectors";
+import { AirplaneDataService } from "../../services/openSkyNetwork/AirplanesDataService";
 import { Airplane } from "../../types/Airplane";
-import { convertTimestamp, getTimeSinceLastContact } from "../../utils/convertTimestamp";
+import { getTimeSinceLastContact } from "../../utils/convertTimestamp";
 import { getFlagByCountryName } from "../../utils/getFlagByCountryName";
-import { MainLoader } from "./loaders/MainLoader";
-import ErrorImage from "../../assets/images/png/errorAirplane.png";
-import PasswordIcon from "@mui/icons-material/Password";
-import CallIcon from "@mui/icons-material/Call";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import HeightIcon from "@mui/icons-material/Height";
-import GroundIcon from "@mui/icons-material/FlightLand";
-import SpeedIcon from "@mui/icons-material/Speed";
-import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-import VerticalAlignCenterIcon from "@mui/icons-material/VerticalAlignCenter";
-import SquareFootIcon from "@mui/icons-material/SquareFoot";
 
 interface IAirplaneDetails {
   setIsAirplanesDetailsOpened: (bool: boolean) => void;
@@ -89,32 +88,29 @@ export const AirplaneDetails = ({
     const abortController = new AbortController();
     const { signal } = abortController;
 
-    const fetchAirplaneData = async (selectedAirplaneId: string) => {
-      try {
-        const response = await fetch(`http://127.0.0.1:8000/api/airplane/${selectedAirplaneId}`, {
-          signal
-        });
-        const data = await response.json();
-        console.log(data);
-        setSelectedAirplane(data);
-      } catch (error: any) {
-        if (error.name !== "AbortError") {
-          console.warn(error.message);
+    const fetchAirplaneData = async () => {
+      if (selectedAirplaneId) {
+        try {
+          const data = await AirplaneDataService.fetchAirplaneById(selectedAirplaneId, signal);
+          setSelectedAirplane(data);
+        } catch (error: any) {
+          if (error.name !== "AbortError") {
+            console.warn("Error fetching airplane data:", error);
+          }
         }
       }
     };
 
-    if (selectedAirplaneId) {
-      fetchAirplaneData(selectedAirplaneId);
+    fetchAirplaneData();
 
-      const interval = setInterval(() => {
-        fetchAirplaneData(selectedAirplaneId);
-      }, 3000);
-      return () => {
-        clearInterval(interval);
-        abortController.abort();
-      };
-    }
+    const interval = setInterval(() => {
+      fetchAirplaneData();
+    }, 3000);
+
+    return () => {
+      clearInterval(interval);
+      abortController.abort();
+    };
   }, [selectedAirplaneId]);
 
   useEffect(() => {
@@ -238,7 +234,7 @@ export const AirplaneDetails = ({
             </Box>
           </>
         ) : (
-          <Box component="img" src={ErrorImage} alt="Error" sx={{ width: "2rem" }} />
+          <Box component="img" src={ErrorImage} alt="Error" sx={{ width: "5rem" }} />
         )}
       </Box>
     </>

@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import airplanesSlice from "./slices/airplanesSlice";
+import snackbarSlice from "./slices/snackbarSlice";
 
 export const store = configureStore({
   reducer: {
-    airplanes: airplanesSlice
+    airplanes: airplanesSlice,
+    snackbar: snackbarSlice
   }
 });
 

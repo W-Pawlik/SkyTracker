@@ -49,11 +49,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(false);
   }
 
+  const updateUserState = (updatedUser: Partial<User>) => {
+    setCurrentUser((prevUser) => (prevUser ? { ...prevUser, ...updatedUser } : null));
+  };
+
   const value = {
     currentUser,
     userLoggedIn,
     loading,
-    isEmailVerified
+    isEmailVerified,
+    updateUserState
   };
 
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;

@@ -5,4 +5,5 @@ export interface AuthContextType {
   userLoggedIn: boolean;
   loading: boolean;
   isEmailVerified: boolean;
+  updateUserState: (updatedUser: Partial<User>) => void;
 }

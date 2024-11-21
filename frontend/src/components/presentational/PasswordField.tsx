@@ -5,7 +5,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { InputAdornment, TextField } from "@mui/material";
 import { PasswordFieldProps } from "../../types/passwordField";
 
-export const PasswordField = ({ password, setPassword }: PasswordFieldProps) => {
+export const PasswordField = ({ password, setPassword, placeHolder }: PasswordFieldProps) => {
   const theme: Theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -15,7 +15,7 @@ export const PasswordField = ({ password, setPassword }: PasswordFieldProps) => 
 
   return (
     <TextField
-      placeholder={`Password`}
+      placeholder={placeHolder ?? `Password`}
       variant="filled"
       type={showPassword ? "text" : "password"}
       fullWidth
