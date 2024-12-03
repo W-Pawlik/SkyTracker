@@ -20,7 +20,8 @@ export function calcAvgProperty(
     .filter((value): value is number => value !== null);
 
   if (values.length === 0) {
-    throw new Error(`Brak dostępnych wartości ${property} do obliczenia średniej.`);
+    return 0;
+    // throw new Error(`Brak dostępnych wartości ${property} do obliczenia średniej.`);
   }
 
   const sum = values.reduce((acc, value) => acc + value, 0);

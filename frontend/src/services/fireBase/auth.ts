@@ -12,12 +12,19 @@ import {
   updatePassword,
   updateProfile
 } from "firebase/auth";
+import {
+  createUserInFirestore,
+  deleteUserFromFirestore,
+  getUserFromFirestore
+} from "../../services/fireBase/firestore/users";
 import { auth } from "./firebaseConfig";
 
 export const doCreateUserWithEmailAndPassword = async (email: string, password: string) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const { user } = userCredential;
+
+    await createUserInFirestore(user);
 
     await sendEmailVerification(user, {
       url: `${window.location.origin}/app`
@@ -43,9 +50,11 @@ export const doSignInWithEmailAndPassword = async (email: string, password: stri
     if (!user.emailVerified) {
       doSignOut();
       throw new Error("Please verify your email before logging in.");
-    } else {
-      return userCredential;
     }
+
+    const userData = await getUserFromFirestore(user.uid);
+
+    return { userCredential, userData };
   } catch (error: any) {
     throw new Error(error.message);
   }
@@ -55,8 +64,15 @@ export const doSignInWithGoogle = async () => {
   try {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
-    const userCredential = result.user;
-    return userCredential;
+    const { user } = result;
+
+    const userData = await getUserFromFirestore(user.uid);
+
+    if (!userData) {
+      await createUserInFirestore(user);
+    }
+
+    return user;
   } catch (error: any) {
     throw new Error(error.message);
   }
@@ -67,6 +83,7 @@ export const doSignOut = () => auth.signOut();
 export const doDeleteAccount = async () => {
   if (auth.currentUser) {
     try {
+      await deleteUserFromFirestore(auth.currentUser.uid);
       await auth.currentUser.delete();
       return { success: true, message: "Account deleted successfully" };
     } catch (error: any) {
@@ -123,7 +140,6 @@ export const doChangePassword = async (newPassword: string) => {
 
   try {
     await updatePassword(auth.currentUser, newPassword);
-    console.log("Password updated succ");
   } catch {
     throw new Error("Failed to update password");
   }
@@ -140,19 +156,17 @@ export const doReauthenticate = async (password?: string) => {
     if (providerData.providerId === "google.com") {
       const googleProvider = new GoogleAuthProvider();
       await reauthenticateWithPopup(auth.currentUser, googleProvider);
-      console.log("Reauthenticated with Google");
     } else if (providerData.providerId === "password") {
       if (!password) {
         throw new Error("Password is required for email reauthentication.");
       }
       const credential = EmailAuthProvider.credential(auth.currentUser.email!, password);
       await reauthenticateWithCredential(auth.currentUser, credential);
-      console.log("Reauthenticated with email/password");
     } else {
       throw new Error("Unsupported authentication provider.");
     }
   } catch (error: any) {
-    throw new Error("Reauthentication failed: " + error.message);
+    throw new Error(`Reauthentication failed: ${error.message}`);
   }
 };
 

@@ -36,3 +36,5 @@ db.sqlite3
 __pycache__/
 .DS_Store
 *.pyc
+
+backend/firebase-service-account.json

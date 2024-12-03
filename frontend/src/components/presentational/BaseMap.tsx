@@ -50,26 +50,46 @@ export const BaseMap = ({
         gestureHandling={"greedy"}
         disableDefaultUI={false}
         onBoundsChanged={handleBoundsChange}
-        maxZoom={12}
+        maxZoom={9}
       >
-        {airplanes?.map((plane, index) =>
-          plane ? (
-            <AdvancedMarker
-              key={index}
-              position={{ lat: plane.latitude, lng: plane.longitude }}
-              clickable
-              onClick={() => (handleAirplaneClick ? handleAirplaneClick(plane) : undefined)}
-            >
-              <Box
-                component="img"
-                src={planeIcon}
-                width={30}
-                height={30}
-                sx={{ transform: `rotate(${plane.true_track}deg)`, cursor: "pointer !important" }}
-              />
-            </AdvancedMarker>
-          ) : null
-        )}
+        <>
+          <Box
+            sx={{
+              position: "absolute",
+              display: "flex",
+              alignItems: "center",
+              top: "10px",
+              right: "5rem",
+              backgroundColor: "rgb(255, 255, 255)",
+              color: "rgb(0,0,0)",
+              boxShadow: "rgba(0, 0, 0, 0.3) 0px 1px 4px -1px",
+              fontSize: "18px",
+              padding: "0 17px",
+              borderRadius: "10px",
+              height: "40px"
+            }}
+          >
+            -- select country ---
+          </Box>
+          {airplanes?.map((plane, index) =>
+            plane ? (
+              <AdvancedMarker
+                key={index}
+                position={{ lat: plane.latitude, lng: plane.longitude }}
+                clickable
+                onClick={() => (handleAirplaneClick ? handleAirplaneClick(plane) : undefined)}
+              >
+                <Box
+                  component="img"
+                  src={planeIcon}
+                  width={30}
+                  height={30}
+                  sx={{ transform: `rotate(${plane.true_track}deg)`, cursor: "pointer !important" }}
+                />
+              </AdvancedMarker>
+            ) : null
+          )}
+        </>
       </Map>
     </APIProvider>
   );

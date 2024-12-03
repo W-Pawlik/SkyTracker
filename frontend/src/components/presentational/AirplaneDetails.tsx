@@ -45,12 +45,16 @@ const AirplaneDetailsCss = {
       padding: "1rem 1.5rem",
       gap: "0.8rem"
     }),
-  button: () =>
+  button: (theme: Theme) =>
     css({
       position: "absolute",
       top: "0",
       right: "0",
-      fontSize: "1.5rem"
+      fontSize: "1.5rem",
+      "&: hover": {
+        color: theme.palette.common.darkerTurquoise,
+        backgroundColor: "transparent"
+      }
     }),
   dataContainer: () =>
     css({
@@ -134,7 +138,7 @@ export const AirplaneDetails = ({
             css={AirplaneDetailsCss.flag}
             title={selectedAirplane?.origin_country}
           />
-          <Button variant="text" onClick={hanleClick} css={AirplaneDetailsCss.button}>
+          <Button variant="text" onClick={hanleClick} css={AirplaneDetailsCss.button(theme)}>
             X
           </Button>
         </Box>

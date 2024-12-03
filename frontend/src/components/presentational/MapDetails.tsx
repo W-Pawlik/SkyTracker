@@ -4,7 +4,8 @@ import ConnectingAirportsIcon from "@mui/icons-material/ConnectingAirports";
 import HeightIcon from "@mui/icons-material/Height";
 import SpeedIcon from "@mui/icons-material/Speed";
 import { Typography } from "@mui/material";
-import { Box, Theme, useTheme } from "@mui/system";
+import { Box } from "@mui/system";
+import ErrorImg from "../../assets/images/png/errorAirplane.png";
 import { mapDetailsTexts } from "../../consts/texts/mapDetails";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import {
@@ -16,7 +17,6 @@ import { Airplane } from "../../types/Airplane";
 import { calcAvgProperty } from "../../utils/calcAvgProp";
 import { getFlagByCountryName } from "../../utils/getFlagByCountryName";
 import { MainLoader } from "./loaders/MainLoader";
-import ErrorImg from "../../assets/images/png/errorAirplane.png";
 
 const MapDetailsCss = {
   container: () =>
@@ -74,7 +74,6 @@ async function getFlagsForAllAirplanes(
 }
 
 export const MapDetails = () => {
-  const theme: Theme = useTheme();
   const airplanes = useAppSelector(selectAirplanes);
   const loading = useAppSelector(selectAirplanesLoading);
   const error = useAppSelector(selectAirplanesError);

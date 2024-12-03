@@ -25,7 +25,8 @@ const AppCss = {
     css({
       backgroundColor: theme.palette.background.paper,
       width: "100%",
-      height: "79.5vh !important",
+      // height: "79.5vh !important",
+      height: "76.5vh !important",
       borderRadius: "20px",
       alignSelf: "stretch !important",
       justifySelf: "stretch"

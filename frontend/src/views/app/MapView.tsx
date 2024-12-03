@@ -12,8 +12,10 @@ import { mapDebouncedBounds } from "../../mappers/debouncedBoundsMapper";
 import { selectAirplanes } from "../../redux/selectors/airplanesSelectors";
 import { fetchData } from "../../redux/slices/airplanesSlice";
 import { Airplane } from "../../types/Airplane";
+import { Theme, useTheme } from "@emotion/react";
 
 export const MapView = () => {
+  const theme: Theme = useTheme();
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const mapId = import.meta.env.VITE_PUBLIC_MAP_ID;
   const [mapBounds, setMapBounds] = useState<google.maps.LatLngBoundsLiteral | null>(null);
@@ -62,7 +64,28 @@ export const MapView = () => {
     >
       {hasInteracted ? (
         <>
-          <Box sx={{ width: "30rem", position: "relative" }}>
+          <Box
+            sx={{
+              width: "30rem",
+              position: "relative",
+              overflowY: "auto",
+              transition: "background-color 1s ease",
+
+              "&::-webkit-scrollbar": {
+                width: "6px"
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: theme.palette.primary.main,
+                transition: "background-color 1s ease"
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                backgroundColor: theme.palette.common.darkerTurquoise
+              },
+              "&::-webkit-scrollbar-track": {
+                backgroundColor: theme.palette.secondary.main
+              }
+            }}
+          >
             {isAirplanesDetailsOpened ? (
               <AirplaneDetails
                 setIsAirplanesDetailsOpened={setIsAirplanesDetailsOpened}
