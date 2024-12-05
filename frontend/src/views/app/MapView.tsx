@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { Theme, useTheme } from "@emotion/react";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { AirplaneDetails } from "../../components/presentational/AirplaneDetails";
@@ -12,7 +13,6 @@ import { mapDebouncedBounds } from "../../mappers/debouncedBoundsMapper";
 import { selectAirplanes } from "../../redux/selectors/airplanesSelectors";
 import { fetchData } from "../../redux/slices/airplanesSlice";
 import { Airplane } from "../../types/Airplane";
-import { Theme, useTheme } from "@emotion/react";
 
 export const MapView = () => {
   const theme: Theme = useTheme();

@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import Box from "@mui/system/Box";
 import { AdvancedMarker, APIProvider, Map } from "@vis.gl/react-google-maps";
+import favPlaneIcon from "../../assets/icons/favPlaneIcon.png";
 import planeIcon from "../../assets/icons/planeIcon.png";
+import { useAppSelector } from "../../hooks/useAppSelector";
 import { useDebounce } from "../../hooks/useDebounce";
+import { selectFavAirplanes } from "../../redux/selectors/userSelectors";
 import { Airplane } from "../../types/Airplane";
 import { Coordinates } from "../../types/userLocation";
 
@@ -27,6 +30,7 @@ export const BaseMap = ({
 }: GoogleMapProps) => {
   const [mapBounds, setMapBounds] = useState<google.maps.LatLngBoundsLiteral | null>(null);
   const debuouncedBounds = useDebounce(mapBounds, 200);
+  const favAirplanes = useAppSelector(selectFavAirplanes);
 
   const handleBoundsChange = useCallback((event: { detail: { bounds: any } }) => {
     const { bounds } = event.detail;
@@ -50,7 +54,8 @@ export const BaseMap = ({
         gestureHandling={"greedy"}
         disableDefaultUI={false}
         onBoundsChanged={handleBoundsChange}
-        maxZoom={9}
+        maxZoom={14}
+        minZoom={6}
       >
         <>
           <Box
@@ -81,7 +86,11 @@ export const BaseMap = ({
               >
                 <Box
                   component="img"
-                  src={planeIcon}
+                  src={
+                    favAirplanes.some((airplane) => airplane.icao24 === plane.icao24)
+                      ? favPlaneIcon
+                      : planeIcon
+                  }
                   width={30}
                   height={30}
                   sx={{ transform: `rotate(${plane.true_track}deg)`, cursor: "pointer !important" }}

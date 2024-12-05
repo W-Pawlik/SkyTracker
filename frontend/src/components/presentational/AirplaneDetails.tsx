@@ -14,12 +14,17 @@ import { Button, Typography } from "@mui/material";
 import { Box, Theme, useTheme } from "@mui/system";
 import ErrorImage from "../../assets/images/png/errorAirplane.png";
 import { airplaneDetailsTexts } from "../../consts/texts/airplaneDetails";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { selectAirplanes } from "../../redux/selectors/airplanesSelectors";
+import { selectFavAirplanes } from "../../redux/selectors/userSelectors";
+import { addFavAirplane, removeFavAirplane } from "../../redux/slices/userSlice";
+import { auth } from "../../services/fireBase/firebaseConfig";
 import { AirplaneDataService } from "../../services/openSkyNetwork/AirplanesDataService";
 import { Airplane } from "../../types/Airplane";
 import { getTimeSinceLastContact } from "../../utils/convertTimestamp";
 import { getFlagByCountryName } from "../../utils/getFlagByCountryName";
+import { CommonButton } from "./Button";
 
 interface IAirplaneDetails {
   setIsAirplanesDetailsOpened: (bool: boolean) => void;
@@ -73,12 +78,29 @@ export const AirplaneDetails = ({
   const airplanes = useAppSelector(selectAirplanes);
   const [selectedAirplane, setSelectedAirplane] = useState<Airplane | null>(null);
   const [flag, setFlag] = useState<string | null>(null);
+  const favAirplanes = useAppSelector(selectFavAirplanes);
+  const dispatch = useAppDispatch();
 
+  const isFavorite =
+    selectedAirplane && favAirplanes.some((fav) => fav.icao24 === selectedAirplane.icao24);
   const lastContact = getTimeSinceLastContact(selectedAirplane?.last_contact);
   const country = selectedAirplane ? selectedAirplane.origin_country : null;
 
   const hanleClick = () => {
     setIsAirplanesDetailsOpened(false);
+  };
+
+  const handleToggleFavorite = () => {
+    if (selectedAirplane) {
+      const uid = auth.currentUser?.uid;
+      if (uid !== undefined) {
+        if (isFavorite) {
+          dispatch(removeFavAirplane({ uid, icao: selectedAirplane.icao24 }));
+        } else {
+          dispatch(addFavAirplane({ uid, airplane: selectedAirplane }));
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -147,6 +169,10 @@ export const AirplaneDetails = ({
         <Typography variant="h1" textAlign="center" marginBottom="0.5rem">
           {airplaneDetailsTexts.title}
         </Typography>
+        <CommonButton
+          text={isFavorite ? "Delete from favorites" : "Add to favorites"}
+          onClick={handleToggleFavorite}
+        />
         {selectedAirplane ? (
           <>
             <Box css={AirplaneDetailsCss.dataContainer}>

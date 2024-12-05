@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import airplanesSlice from "./slices/airplanesSlice";
 import snackbarSlice from "./slices/snackbarSlice";
+import userSlice from "./slices/userSlice";
 
 export const store = configureStore({
   reducer: {
     airplanes: airplanesSlice,
-    snackbar: snackbarSlice
+    snackbar: snackbarSlice,
+    user: userSlice
   }
 });
 
